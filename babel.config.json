@@ -1,0 +1,12 @@
+{
+    "presets": [
+        "@babel/env",
+        "@babel/react",
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+        ["relay", { "artifactDirectory": "./src/__generated__" }],
+        "@babel/plugin-proposal-class-properties",
+        "transform-es2015-modules-commonjs"
+    ]
+}
