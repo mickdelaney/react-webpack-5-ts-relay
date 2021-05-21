@@ -6,6 +6,12 @@
     ],
     "plugins": [
         ["relay", { "artifactDirectory": "./src/__generated__" }],
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "regenerator": true
+          }
+        ],
         "@babel/plugin-proposal-class-properties",
         "transform-es2015-modules-commonjs"
     ]

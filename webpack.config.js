@@ -1,42 +1,31 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 
 module.exports = {
-  entry: "./src/index.tsx",
+  mode: process.env.NODE_ENV || "development",
   output: {
     path: path.join(__dirname, "build"),
     filename: "index.bundle.js",
-  },
-  mode: process.env.NODE_ENV || "development",
+  },  
+  entry: "./src/index.tsx",
   resolve: {
-    fallback: {
-      fs: false,
-      ...Object.fromEntries(Object.entries(require("node-libs-browser")).filter(e => e[1] !== null)),
-      // process: require("node-libs-browser").process,
-      // buffer: require("node-libs-browser").buffer,
-    },
-    alias: {
-      process: 'process/browser'
-    },
     extensions: [".tsx", ".ts", ".js"],
-  },
-  devServer: {
-    port: 3000,
-    watchContentBase: true,
-    contentBase: path.join(__dirname, "src"),
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|js)x?$/i,
         exclude: /node_modules/,
-        use: ["babel-loader"],
-      },
-      {
-        test: /\.(ts|tsx)$/,
-        exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
       },
       {
         test: /\.(css|scss)$/,
@@ -49,9 +38,14 @@ module.exports = {
     ],
   },
   plugins: [
-    new NodePolyfillPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "index.html"),
     }),
-  ]
+  ],
+  devtool: "inline-source-map",
+  devServer: {
+    port: 3000,
+    watchContentBase: true,
+    contentBase: path.join(__dirname, "src"),
+  },
 };

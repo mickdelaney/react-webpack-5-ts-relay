@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import graphql from "babel-plugin-relay/macro";
+import { graphql } from "react-relay";
 import {
   RelayEnvironmentProvider,
   loadQuery,
